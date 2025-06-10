@@ -1,2 +1,2 @@
-# franka_desk_api_client
+# Franka Desk API Client
 Some simple python scripts for the Franka Robotics Desk API.
