@@ -26,6 +26,11 @@ To enable your franka (take control, unlock joints and enable fci) simply run:
 ```bash
 uv run scripts/enable_franka.py <robot_ip>
 ```
+or without using uv in a virtual enviroment:
+```bash
+pip install .
+python scripts/enable_franka.py <robot_ip>
+```
 
 ## Collaborating
 
