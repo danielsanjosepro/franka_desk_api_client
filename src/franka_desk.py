@@ -1,5 +1,9 @@
+from typing import List, Union
+
 import requests
-from typing import Union, List
+import urllib3
+
+urllib3.disable_warnings()
 
 
 class FrankaDesk:
@@ -55,6 +59,7 @@ class FrankaDesk:
             f"{self._url}/api/system/control-token:take",
             json={"owner": self._name},
             auth=(self._user, self._password),
+            verify=False,
             timeout=5.0,
         )
         response.raise_for_status()
@@ -78,6 +83,7 @@ class FrankaDesk:
 
         response = requests.post(
             f"{self._url}/api/arm/joints:unlock",
+            verify=False,
             headers={"X-Control-Token": self.key},
             auth=(self._user, self._password),
         )
@@ -102,6 +108,7 @@ class FrankaDesk:
 
         requests.post(
             f"{self._url}/api/arm/joints:lock",
+            verify=False,
             headers={"X-Control-Token": self.key},
             auth=(self._user, self._password),
         ).raise_for_status()
@@ -125,6 +132,7 @@ class FrankaDesk:
         requests.post(
             f"{self._url}/api/system/operating-mode:change",
             json={"desiredOperatingMode": mode},
+            verify=False,
             headers={"X-Control-Token": self.key},
             auth=(self._user, self._password),
         ).raise_for_status()
@@ -141,6 +149,7 @@ class FrankaDesk:
         requests.post(
             f"{self._url}/api/system:reboot",
             auth=(self._user, self._password),
+            verify=False,
         )
 
     def deactivate_fci(self):
@@ -162,6 +171,7 @@ class FrankaDesk:
             f"{self._url}/api/fci:deactivate",
             headers={"X-Control-Token": self.key},
             auth=(self._user, self._password),
+            verify=False,
         ).raise_for_status()
 
     def activate_fci(self):
@@ -183,6 +193,7 @@ class FrankaDesk:
             f"{self._url}/api/fci:activate",
             headers={"X-Control-Token": self.key},
             auth=(self._user, self._password),
+            verify=False,
         )
 
         if response.status_code not in [200, 500]:
@@ -203,6 +214,7 @@ class FrankaDesk:
         response = requests.get(
             f"{self._url}/api/arm/joints",
             auth=(self._user, self._password),
+            verify=False,
         )
         response.raise_for_status()
         return [joint.get("brakeStatus") for joint in response.json()]
@@ -222,6 +234,7 @@ class FrankaDesk:
         response = requests.get(
             f"{self._url}/api/system/operating-mode",
             auth=(self._user, self._password),
+            verify=False,
         )
         response.raise_for_status()
         return response.json().get("status")
